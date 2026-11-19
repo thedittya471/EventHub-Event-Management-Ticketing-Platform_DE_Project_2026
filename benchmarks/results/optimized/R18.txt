@@ -1,0 +1,48 @@
+=== R18 run 1 ===
+GroupAggregate  (cost=394.75..468.60 rows=3282 width=18) (actual time=1.470..1.887 rows=120 loops=1)
+  Group Key: ((created_at)::date), post_type
+  Buffers: shared hit=30
+  ->  Sort  (cost=394.75..402.96 rows=3282 width=10) (actual time=1.453..1.568 rows=3296 loops=1)
+        Sort Key: ((created_at)::date), post_type
+        Sort Method: quicksort  Memory: 225kB
+        Buffers: shared hit=30
+        ->  Index Only Scan using posts_by_created_at_idx on posts  (cost=0.41..203.08 rows=3282 width=10) (actual time=0.018..0.684 rows=3296 loops=1)
+              Index Cond: ((created_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (created_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+              Heap Fetches: 0
+              Buffers: shared hit=24
+Planning:
+  Buffers: shared hit=239
+Planning Time: 0.984 ms
+Execution Time: 1.974 ms
+=== R18 run 2 ===
+GroupAggregate  (cost=394.75..468.60 rows=3282 width=18) (actual time=1.617..2.038 rows=120 loops=1)
+  Group Key: ((created_at)::date), post_type
+  Buffers: shared hit=30
+  ->  Sort  (cost=394.75..402.96 rows=3282 width=10) (actual time=1.593..1.711 rows=3296 loops=1)
+        Sort Key: ((created_at)::date), post_type
+        Sort Method: quicksort  Memory: 225kB
+        Buffers: shared hit=30
+        ->  Index Only Scan using posts_by_created_at_idx on posts  (cost=0.41..203.08 rows=3282 width=10) (actual time=0.132..0.790 rows=3296 loops=1)
+              Index Cond: ((created_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (created_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+              Heap Fetches: 0
+              Buffers: shared hit=24
+Planning:
+  Buffers: shared hit=239
+Planning Time: 1.054 ms
+Execution Time: 2.184 ms
+=== R18 run 3 ===
+GroupAggregate  (cost=394.75..468.60 rows=3282 width=18) (actual time=1.630..2.068 rows=120 loops=1)
+  Group Key: ((created_at)::date), post_type
+  Buffers: shared hit=30
+  ->  Sort  (cost=394.75..402.96 rows=3282 width=10) (actual time=1.606..1.734 rows=3296 loops=1)
+        Sort Key: ((created_at)::date), post_type
+        Sort Method: quicksort  Memory: 225kB
+        Buffers: shared hit=30
+        ->  Index Only Scan using posts_by_created_at_idx on posts  (cost=0.41..203.08 rows=3282 width=10) (actual time=0.016..0.727 rows=3296 loops=1)
+              Index Cond: ((created_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (created_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+              Heap Fetches: 0
+              Buffers: shared hit=24
+Planning:
+  Buffers: shared hit=239
+Planning Time: 1.166 ms
+Execution Time: 2.151 ms

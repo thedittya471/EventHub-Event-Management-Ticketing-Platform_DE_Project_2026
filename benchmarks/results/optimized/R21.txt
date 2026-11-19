@@ -1,0 +1,78 @@
+=== R21 run 1 ===
+Merge Anti Join  (cost=27.15..35.49 rows=11 width=4) (actual time=1.932..1.943 rows=81 loops=1)
+  Merge Cond: (f.follower_id = l.user_id)
+  Buffers: shared hit=26 read=15
+  ->  Index Only Scan using follows_accepted_by_followee_idx on follows f  (cost=0.42..8.61 rows=11 width=4) (actual time=0.010..0.013 rows=81 loops=1)
+        Index Cond: (followee_id = 217)
+        Heap Fetches: 0
+        Buffers: shared hit=4
+  ->  Sort  (cost=26.73..26.78 rows=21 width=4) (actual time=1.921..1.922 rows=72 loops=1)
+        Sort Key: l.user_id
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=22 read=15
+        ->  Nested Loop  (cost=0.71..26.27 rows=21 width=4) (actual time=0.332..1.911 rows=73 loops=1)
+              Buffers: shared hit=22 read=15
+              ->  Index Only Scan using posts_by_user_post_idx on posts p  (cost=0.29..8.34 rows=3 width=4) (actual time=0.008..0.009 rows=11 loops=1)
+                    Index Cond: (user_id = 217)
+                    Heap Fetches: 0
+                    Buffers: shared hit=3
+              ->  Index Only Scan using likes_by_post_idx on likes l  (cost=0.42..5.90 rows=8 width=8) (actual time=0.172..0.172 rows=7 loops=11)
+                    Index Cond: (post_id = p.post_id)
+                    Heap Fetches: 0
+                    Buffers: shared hit=19 read=15
+Planning:
+  Buffers: shared hit=366
+Planning Time: 0.875 ms
+Execution Time: 1.972 ms
+=== R21 run 2 ===
+Merge Anti Join  (cost=27.15..35.49 rows=11 width=4) (actual time=0.076..0.091 rows=81 loops=1)
+  Merge Cond: (f.follower_id = l.user_id)
+  Buffers: shared hit=41
+  ->  Index Only Scan using follows_accepted_by_followee_idx on follows f  (cost=0.42..8.61 rows=11 width=4) (actual time=0.010..0.013 rows=81 loops=1)
+        Index Cond: (followee_id = 217)
+        Heap Fetches: 0
+        Buffers: shared hit=4
+  ->  Sort  (cost=26.73..26.78 rows=21 width=4) (actual time=0.065..0.067 rows=72 loops=1)
+        Sort Key: l.user_id
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=37
+        ->  Nested Loop  (cost=0.71..26.27 rows=21 width=4) (actual time=0.018..0.055 rows=73 loops=1)
+              Buffers: shared hit=37
+              ->  Index Only Scan using posts_by_user_post_idx on posts p  (cost=0.29..8.34 rows=3 width=4) (actual time=0.009..0.010 rows=11 loops=1)
+                    Index Cond: (user_id = 217)
+                    Heap Fetches: 0
+                    Buffers: shared hit=3
+              ->  Index Only Scan using likes_by_post_idx on likes l  (cost=0.42..5.90 rows=8 width=8) (actual time=0.003..0.004 rows=7 loops=11)
+                    Index Cond: (post_id = p.post_id)
+                    Heap Fetches: 0
+                    Buffers: shared hit=34
+Planning:
+  Buffers: shared hit=366
+Planning Time: 0.676 ms
+Execution Time: 0.124 ms
+=== R21 run 3 ===
+Merge Anti Join  (cost=27.15..35.49 rows=11 width=4) (actual time=0.051..0.061 rows=81 loops=1)
+  Merge Cond: (f.follower_id = l.user_id)
+  Buffers: shared hit=41
+  ->  Index Only Scan using follows_accepted_by_followee_idx on follows f  (cost=0.42..8.61 rows=11 width=4) (actual time=0.007..0.008 rows=81 loops=1)
+        Index Cond: (followee_id = 217)
+        Heap Fetches: 0
+        Buffers: shared hit=4
+  ->  Sort  (cost=26.73..26.78 rows=21 width=4) (actual time=0.044..0.045 rows=72 loops=1)
+        Sort Key: l.user_id
+        Sort Method: quicksort  Memory: 25kB
+        Buffers: shared hit=37
+        ->  Nested Loop  (cost=0.71..26.27 rows=21 width=4) (actual time=0.012..0.036 rows=73 loops=1)
+              Buffers: shared hit=37
+              ->  Index Only Scan using posts_by_user_post_idx on posts p  (cost=0.29..8.34 rows=3 width=4) (actual time=0.006..0.006 rows=11 loops=1)
+                    Index Cond: (user_id = 217)
+                    Heap Fetches: 0
+                    Buffers: shared hit=3
+              ->  Index Only Scan using likes_by_post_idx on likes l  (cost=0.42..5.90 rows=8 width=8) (actual time=0.002..0.002 rows=7 loops=11)
+                    Index Cond: (post_id = p.post_id)
+                    Heap Fetches: 0
+                    Buffers: shared hit=34
+Planning:
+  Buffers: shared hit=366
+Planning Time: 0.622 ms
+Execution Time: 0.082 ms

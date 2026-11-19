@@ -1,0 +1,51 @@
+=== R13 run 1 ===
+Bitmap Heap Scan on comments c  (cost=3167.32..3178.93 rows=2 width=24) (actual time=38.029..38.033 rows=0 loops=1)
+  Recheck Cond: (post_id = 59689)
+  Filter: (NOT (hashed SubPlan 1))
+  Rows Removed by Filter: 13
+  Heap Blocks: exact=13
+  Buffers: shared hit=1303
+  ->  Bitmap Index Scan on comments_by_post_idx  (cost=0.00..4.32 rows=3 width=0) (actual time=0.022..0.022 rows=13 loops=1)
+        Index Cond: (post_id = 59689)
+        Buffers: shared hit=2
+  SubPlan 1
+    ->  Seq Scan on comments r  (cost=0.00..2788.00 rows=150000 width=4) (actual time=0.162..18.416 rows=150000 loops=1)
+          Buffers: shared hit=1288
+Planning:
+  Buffers: shared hit=133
+Planning Time: 1.175 ms
+Execution Time: 38.121 ms
+=== R13 run 2 ===
+Bitmap Heap Scan on comments c  (cost=3167.32..3178.93 rows=2 width=24) (actual time=19.486..19.489 rows=0 loops=1)
+  Recheck Cond: (post_id = 59689)
+  Filter: (NOT (hashed SubPlan 1))
+  Rows Removed by Filter: 13
+  Heap Blocks: exact=13
+  Buffers: shared hit=1303
+  ->  Bitmap Index Scan on comments_by_post_idx  (cost=0.00..4.32 rows=3 width=0) (actual time=0.009..0.009 rows=13 loops=1)
+        Index Cond: (post_id = 59689)
+        Buffers: shared hit=2
+  SubPlan 1
+    ->  Seq Scan on comments r  (cost=0.00..2788.00 rows=150000 width=4) (actual time=0.006..8.771 rows=150000 loops=1)
+          Buffers: shared hit=1288
+Planning:
+  Buffers: shared hit=133
+Planning Time: 0.470 ms
+Execution Time: 19.564 ms
+=== R13 run 3 ===
+Bitmap Heap Scan on comments c  (cost=3167.32..3178.93 rows=2 width=24) (actual time=19.358..19.360 rows=0 loops=1)
+  Recheck Cond: (post_id = 59689)
+  Filter: (NOT (hashed SubPlan 1))
+  Rows Removed by Filter: 13
+  Heap Blocks: exact=13
+  Buffers: shared hit=1303
+  ->  Bitmap Index Scan on comments_by_post_idx  (cost=0.00..4.32 rows=3 width=0) (actual time=0.005..0.005 rows=13 loops=1)
+        Index Cond: (post_id = 59689)
+        Buffers: shared hit=2
+  SubPlan 1
+    ->  Seq Scan on comments r  (cost=0.00..2788.00 rows=150000 width=4) (actual time=0.004..8.690 rows=150000 loops=1)
+          Buffers: shared hit=1288
+Planning:
+  Buffers: shared hit=133
+Planning Time: 0.282 ms
+Execution Time: 19.399 ms

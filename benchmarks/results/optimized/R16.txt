@@ -1,0 +1,63 @@
+=== R16 run 1 ===
+Sort  (cost=343.82..343.98 rows=67 width=19) (actual time=0.318..0.323 rows=81 loops=1)
+  Sort Key: like_count DESC
+  Sort Method: quicksort  Memory: 28kB
+  Buffers: shared hit=63
+  ->  Bitmap Heap Scan on posts  (cost=136.48..341.78 rows=67 width=19) (actual time=0.230..0.296 rows=81 loops=1)
+        Recheck Cond: (((location_name)::text ~~* '%goa%'::text) AND (created_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (created_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+        Heap Blocks: exact=34
+        Buffers: shared hit=60
+        ->  BitmapAnd  (cost=136.48..136.48 rows=67 width=0) (actual time=0.220..0.220 rows=0 loops=1)
+              Buffers: shared hit=26
+              ->  Bitmap Index Scan on posts_location_trgm_idx  (cost=0.00..18.96 rows=1234 width=0) (actual time=0.098..0.098 rows=1239 loops=1)
+                    Index Cond: ((location_name)::text ~~* '%goa%'::text)
+                    Buffers: shared hit=3
+              ->  Bitmap Index Scan on posts_by_created_at_idx  (cost=0.00..117.24 rows=3282 width=0) (actual time=0.100..0.100 rows=3296 loops=1)
+                    Index Cond: ((created_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (created_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Buffers: shared hit=23
+Planning:
+  Buffers: shared hit=231
+Planning Time: 1.105 ms
+Execution Time: 0.397 ms
+=== R16 run 2 ===
+Sort  (cost=343.82..343.98 rows=67 width=19) (actual time=0.360..0.365 rows=81 loops=1)
+  Sort Key: like_count DESC
+  Sort Method: quicksort  Memory: 28kB
+  Buffers: shared hit=63
+  ->  Bitmap Heap Scan on posts  (cost=136.48..341.78 rows=67 width=19) (actual time=0.261..0.334 rows=81 loops=1)
+        Recheck Cond: (((location_name)::text ~~* '%goa%'::text) AND (created_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (created_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+        Heap Blocks: exact=34
+        Buffers: shared hit=60
+        ->  BitmapAnd  (cost=136.48..136.48 rows=67 width=0) (actual time=0.250..0.250 rows=0 loops=1)
+              Buffers: shared hit=26
+              ->  Bitmap Index Scan on posts_location_trgm_idx  (cost=0.00..18.96 rows=1234 width=0) (actual time=0.111..0.111 rows=1239 loops=1)
+                    Index Cond: ((location_name)::text ~~* '%goa%'::text)
+                    Buffers: shared hit=3
+              ->  Bitmap Index Scan on posts_by_created_at_idx  (cost=0.00..117.24 rows=3282 width=0) (actual time=0.114..0.114 rows=3296 loops=1)
+                    Index Cond: ((created_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (created_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Buffers: shared hit=23
+Planning:
+  Buffers: shared hit=231
+Planning Time: 1.174 ms
+Execution Time: 0.449 ms
+=== R16 run 3 ===
+Sort  (cost=343.82..343.98 rows=67 width=19) (actual time=0.187..0.189 rows=81 loops=1)
+  Sort Key: like_count DESC
+  Sort Method: quicksort  Memory: 28kB
+  Buffers: shared hit=63
+  ->  Bitmap Heap Scan on posts  (cost=136.48..341.78 rows=67 width=19) (actual time=0.131..0.173 rows=81 loops=1)
+        Recheck Cond: (((location_name)::text ~~* '%goa%'::text) AND (created_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (created_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+        Heap Blocks: exact=34
+        Buffers: shared hit=60
+        ->  BitmapAnd  (cost=136.48..136.48 rows=67 width=0) (actual time=0.126..0.126 rows=0 loops=1)
+              Buffers: shared hit=26
+              ->  Bitmap Index Scan on posts_location_trgm_idx  (cost=0.00..18.96 rows=1234 width=0) (actual time=0.055..0.055 rows=1239 loops=1)
+                    Index Cond: ((location_name)::text ~~* '%goa%'::text)
+                    Buffers: shared hit=3
+              ->  Bitmap Index Scan on posts_by_created_at_idx  (cost=0.00..117.24 rows=3282 width=0) (actual time=0.058..0.058 rows=3296 loops=1)
+                    Index Cond: ((created_at >= '2026-06-01 00:00:00+05:30'::timestamp with time zone) AND (created_at < '2026-07-01 00:00:00+05:30'::timestamp with time zone))
+                    Buffers: shared hit=23
+Planning:
+  Buffers: shared hit=231
+Planning Time: 0.716 ms
+Execution Time: 0.232 ms

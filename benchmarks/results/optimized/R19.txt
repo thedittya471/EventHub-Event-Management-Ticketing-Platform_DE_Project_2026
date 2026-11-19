@@ -1,0 +1,129 @@
+=== R19 run 1 ===
+Sort  (cost=13715.11..13715.85 rows=294 width=36) (actual time=82.116..82.179 rows=294 loops=1)
+  Sort Key: (COALESCE((count(l.post_id)), '0'::bigint)) DESC
+  Sort Method: quicksort  Memory: 43kB
+  Buffers: shared hit=2784 read=213
+  ->  Hash Right Join  (cost=13253.69..13703.06 rows=294 width=36) (actual time=80.461..82.124 rows=294 loops=1)
+        Hash Cond: (p.user_id = u.user_id)
+        Buffers: shared hit=2781 read=213
+        ->  Finalize HashAggregate  (cost=12464.02..12662.63 rows=19861 width=20) (actual time=76.704..77.707 rows=23340 loops=1)
+              Group Key: p.user_id
+              Batches: 1  Memory Usage: 2833kB
+              Buffers: shared hit=2295 read=213
+              ->  Gather  (cost=10130.35..12315.06 rows=19861 width=20) (actual time=70.184..72.657 rows=45946 loops=1)
+                    Workers Planned: 1
+                    Workers Launched: 1
+                    Buffers: shared hit=2295 read=213
+                    ->  Partial HashAggregate  (cost=9130.35..9328.96 rows=19861 width=20) (actual time=67.684..68.703 rows=22973 loops=2)
+                          Group Key: p.user_id
+                          Batches: 1  Memory Usage: 2833kB
+                          Buffers: shared hit=2295 read=213
+                          Worker 0:  Batches: 1  Memory Usage: 2833kB
+                          ->  Parallel Hash Right Join  (cost=1886.79..7277.61 rows=247032 width=16) (actual time=7.884..43.880 rows=210058 loops=2)
+                                Hash Cond: (l.post_id = p.post_id)
+                                Buffers: shared hit=2295 read=213
+                                ->  Parallel Seq Scan on likes l  (cost=0.00..4742.32 rows=247032 width=4) (actual time=0.007..8.621 rows=209977 loops=2)
+                                      Buffers: shared hit=2272
+                                ->  Parallel Hash  (cost=1574.29..1574.29 rows=25000 width=16) (actual time=7.736..7.736 rows=30000 loops=2)
+                                      Buckets: 65536  Batches: 1  Memory Usage: 3808kB
+                                      Buffers: shared hit=20 read=213
+                                      ->  Parallel Index Only Scan using posts_by_user_post_idx on posts p  (cost=0.29..1574.29 rows=25000 width=16) (actual time=0.068..4.196 rows=30000 loops=2)
+                                            Heap Fetches: 0
+                                            Buffers: shared hit=20 read=213
+        ->  Hash  (cost=786.00..786.00 rows=294 width=20) (actual time=3.735..3.736 rows=294 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 23kB
+              Buffers: shared hit=486
+              ->  Seq Scan on users u  (cost=0.00..786.00 rows=294 width=20) (actual time=0.013..3.673 rows=294 loops=1)
+                    Filter: is_verified
+                    Rows Removed by Filter: 29706
+                    Buffers: shared hit=486
+Planning:
+  Buffers: shared hit=416 read=3
+Planning Time: 2.607 ms
+Execution Time: 82.461 ms
+=== R19 run 2 ===
+Sort  (cost=13715.11..13715.85 rows=294 width=36) (actual time=48.439..48.518 rows=294 loops=1)
+  Sort Key: (COALESCE((count(l.post_id)), '0'::bigint)) DESC
+  Sort Method: quicksort  Memory: 43kB
+  Buffers: shared hit=2997
+  ->  Hash Right Join  (cost=13253.69..13703.06 rows=294 width=36) (actual time=46.956..48.479 rows=294 loops=1)
+        Hash Cond: (p.user_id = u.user_id)
+        Buffers: shared hit=2994
+        ->  Finalize HashAggregate  (cost=12464.02..12662.63 rows=19861 width=20) (actual time=45.373..46.317 rows=23340 loops=1)
+              Group Key: p.user_id
+              Batches: 1  Memory Usage: 2833kB
+              Buffers: shared hit=2508
+              ->  Gather  (cost=10130.35..12315.06 rows=19861 width=20) (actual time=39.586..41.816 rows=45947 loops=1)
+                    Workers Planned: 1
+                    Workers Launched: 1
+                    Buffers: shared hit=2508
+                    ->  Partial HashAggregate  (cost=9130.35..9328.96 rows=19861 width=20) (actual time=38.394..39.377 rows=22974 loops=2)
+                          Group Key: p.user_id
+                          Batches: 1  Memory Usage: 2833kB
+                          Buffers: shared hit=2508
+                          Worker 0:  Batches: 1  Memory Usage: 2833kB
+                          ->  Parallel Hash Right Join  (cost=1886.79..7277.61 rows=247032 width=16) (actual time=2.891..24.587 rows=210058 loops=2)
+                                Hash Cond: (l.post_id = p.post_id)
+                                Buffers: shared hit=2508
+                                ->  Parallel Seq Scan on likes l  (cost=0.00..4742.32 rows=247032 width=4) (actual time=0.006..5.416 rows=209977 loops=2)
+                                      Buffers: shared hit=2272
+                                ->  Parallel Hash  (cost=1574.29..1574.29 rows=25000 width=16) (actual time=2.852..2.852 rows=30000 loops=2)
+                                      Buckets: 65536  Batches: 1  Memory Usage: 3840kB
+                                      Buffers: shared hit=233
+                                      ->  Parallel Index Only Scan using posts_by_user_post_idx on posts p  (cost=0.29..1574.29 rows=25000 width=16) (actual time=0.013..1.292 rows=30000 loops=2)
+                                            Heap Fetches: 0
+                                            Buffers: shared hit=233
+        ->  Hash  (cost=786.00..786.00 rows=294 width=20) (actual time=1.566..1.566 rows=294 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 23kB
+              Buffers: shared hit=486
+              ->  Seq Scan on users u  (cost=0.00..786.00 rows=294 width=20) (actual time=0.003..1.547 rows=294 loops=1)
+                    Filter: is_verified
+                    Rows Removed by Filter: 29706
+                    Buffers: shared hit=486
+Planning:
+  Buffers: shared hit=419
+Planning Time: 0.749 ms
+Execution Time: 48.667 ms
+=== R19 run 3 ===
+Sort  (cost=13715.11..13715.85 rows=294 width=36) (actual time=52.930..53.019 rows=294 loops=1)
+  Sort Key: (COALESCE((count(l.post_id)), '0'::bigint)) DESC
+  Sort Method: quicksort  Memory: 43kB
+  Buffers: shared hit=2997
+  ->  Hash Right Join  (cost=13253.69..13703.06 rows=294 width=36) (actual time=51.469..52.980 rows=294 loops=1)
+        Hash Cond: (p.user_id = u.user_id)
+        Buffers: shared hit=2994
+        ->  Finalize HashAggregate  (cost=12464.02..12662.63 rows=19861 width=20) (actual time=49.941..50.893 rows=23340 loops=1)
+              Group Key: p.user_id
+              Batches: 1  Memory Usage: 2833kB
+              Buffers: shared hit=2508
+              ->  Gather  (cost=10130.35..12315.06 rows=19861 width=20) (actual time=44.193..46.466 rows=45960 loops=1)
+                    Workers Planned: 1
+                    Workers Launched: 1
+                    Buffers: shared hit=2508
+                    ->  Partial HashAggregate  (cost=9130.35..9328.96 rows=19861 width=20) (actual time=42.436..43.399 rows=22980 loops=2)
+                          Group Key: p.user_id
+                          Batches: 1  Memory Usage: 2833kB
+                          Buffers: shared hit=2508
+                          Worker 0:  Batches: 1  Memory Usage: 2833kB
+                          ->  Parallel Hash Right Join  (cost=1886.79..7277.61 rows=247032 width=16) (actual time=3.085..26.873 rows=210058 loops=2)
+                                Hash Cond: (l.post_id = p.post_id)
+                                Buffers: shared hit=2508
+                                ->  Parallel Seq Scan on likes l  (cost=0.00..4742.32 rows=247032 width=4) (actual time=0.008..5.496 rows=209977 loops=2)
+                                      Buffers: shared hit=2272
+                                ->  Parallel Hash  (cost=1574.29..1574.29 rows=25000 width=16) (actual time=3.038..3.038 rows=30000 loops=2)
+                                      Buckets: 65536  Batches: 1  Memory Usage: 3808kB
+                                      Buffers: shared hit=233
+                                      ->  Parallel Index Only Scan using posts_by_user_post_idx on posts p  (cost=0.29..1574.29 rows=25000 width=16) (actual time=0.204..1.421 rows=30000 loops=2)
+                                            Heap Fetches: 0
+                                            Buffers: shared hit=233
+        ->  Hash  (cost=786.00..786.00 rows=294 width=20) (actual time=1.511..1.512 rows=294 loops=1)
+              Buckets: 1024  Batches: 1  Memory Usage: 23kB
+              Buffers: shared hit=486
+              ->  Seq Scan on users u  (cost=0.00..786.00 rows=294 width=20) (actual time=0.003..1.493 rows=294 loops=1)
+                    Filter: is_verified
+                    Rows Removed by Filter: 29706
+                    Buffers: shared hit=486
+Planning:
+  Buffers: shared hit=419
+Planning Time: 0.869 ms
+Execution Time: 53.162 ms

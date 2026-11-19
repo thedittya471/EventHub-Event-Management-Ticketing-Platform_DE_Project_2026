@@ -2,6 +2,8 @@
 -- CP1: Load seed data
 -- Run from the project root directory.
 
+SET search_path TO instagram, public;
+
 BEGIN;
 
 -- 1. USERS

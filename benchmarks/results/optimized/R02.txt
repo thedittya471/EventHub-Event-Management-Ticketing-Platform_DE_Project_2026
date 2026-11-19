@@ -1,0 +1,33 @@
+=== R02 run 1 ===
+Limit  (cost=0.41..8.47 rows=3 width=26) (actual time=0.828..0.838 rows=11 loops=1)
+  Buffers: shared hit=1 read=3
+  ->  Index Only Scan using posts_active_by_user_created_idx on posts  (cost=0.41..8.47 rows=3 width=26) (actual time=0.825..0.829 rows=11 loops=1)
+        Index Cond: (user_id = 217)
+        Heap Fetches: 0
+        Buffers: shared hit=1 read=3
+Planning:
+  Buffers: shared hit=219
+Planning Time: 1.829 ms
+Execution Time: 0.892 ms
+=== R02 run 2 ===
+Limit  (cost=0.41..8.47 rows=3 width=26) (actual time=0.085..0.091 rows=11 loops=1)
+  Buffers: shared hit=4
+  ->  Index Only Scan using posts_active_by_user_created_idx on posts  (cost=0.41..8.47 rows=3 width=26) (actual time=0.084..0.086 rows=11 loops=1)
+        Index Cond: (user_id = 217)
+        Heap Fetches: 0
+        Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=219
+Planning Time: 1.367 ms
+Execution Time: 0.120 ms
+=== R02 run 3 ===
+Limit  (cost=0.41..8.47 rows=3 width=26) (actual time=0.090..0.097 rows=11 loops=1)
+  Buffers: shared hit=4
+  ->  Index Only Scan using posts_active_by_user_created_idx on posts  (cost=0.41..8.47 rows=3 width=26) (actual time=0.089..0.091 rows=11 loops=1)
+        Index Cond: (user_id = 217)
+        Heap Fetches: 0
+        Buffers: shared hit=4
+Planning:
+  Buffers: shared hit=219
+Planning Time: 1.567 ms
+Execution Time: 0.132 ms
