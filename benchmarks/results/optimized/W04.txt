@@ -1,0 +1,105 @@
+=== W04 run 1 ===
+Update on users u  (cost=9197.60..10137.00 rows=0 width=0) (actual time=145.501..145.508 rows=0 loops=1)
+  Buffers: shared hit=33407 dirtied=745 written=126
+  ->  Hash Join  (cost=9197.60..10137.00 rows=29854 width=46) (actual time=83.948..88.789 rows=1200 loops=1)
+        Hash Cond: (u.user_id = s.user_id)
+        Join Filter: (u.followers_count <> COALESCE(s.n, '0'::bigint))
+        Rows Removed by Join Filter: 28800
+        Buffers: shared hit=2892
+        ->  Seq Scan on users u  (cost=0.00..786.00 rows=30000 width=14) (actual time=0.010..1.720 rows=30000 loops=1)
+              Buffers: shared hit=486
+        ->  Hash  (cost=8822.60..8822.60 rows=30000 width=48) (actual time=83.904..83.905 rows=30000 loops=1)
+              Buckets: 32768  Batches: 1  Memory Usage: 2717kB
+              Buffers: shared hit=2406
+              ->  Subquery Scan on s  (cost=8222.60..8822.60 rows=30000 width=48) (actual time=79.472..82.362 rows=30000 loops=1)
+                    Buffers: shared hit=2406
+                    ->  HashAggregate  (cost=8222.60..8522.60 rows=30000 width=12) (actual time=79.458..80.662 rows=30000 loops=1)
+                          Group Key: uu.user_id
+                          Batches: 1  Memory Usage: 3601kB
+                          Buffers: shared hit=2406
+                          ->  Hash Right Join  (cost=1161.00..6970.69 rows=250382 width=8) (actual time=6.125..52.772 rows=251292 loops=1)
+                                Hash Cond: (f.followee_id = uu.user_id)
+                                Buffers: shared hit=2406
+                                ->  Seq Scan on follows f  (cost=0.00..5152.35 rows=250382 width=8) (actual time=0.036..15.592 rows=250729 loops=1)
+                                      Filter: ((status)::text = 'ACCEPTED'::text)
+                                      Rows Removed by Filter: 7859
+                                      Buffers: shared hit=1920
+                                ->  Hash  (cost=786.00..786.00 rows=30000 width=4) (actual time=6.056..6.056 rows=30000 loops=1)
+                                      Buckets: 32768  Batches: 1  Memory Usage: 1311kB
+                                      Buffers: shared hit=486
+                                      ->  Seq Scan on users uu  (cost=0.00..786.00 rows=30000 width=4) (actual time=0.002..3.142 rows=30000 loops=1)
+                                            Buffers: shared hit=486
+Planning:
+  Buffers: shared hit=325
+Planning Time: 2.063 ms
+Execution Time: 145.928 ms
+=== W04 run 2 ===
+Update on users u  (cost=9281.12..10257.24 rows=0 width=0) (actual time=77.774..77.778 rows=0 loops=1)
+  Buffers: shared hit=38977 dirtied=114 written=112
+  ->  Hash Join  (cost=9281.12..10257.24 rows=31022 width=46) (actual time=47.409..51.815 rows=1200 loops=1)
+        Hash Cond: (u.user_id = s.user_id)
+        Join Filter: (u.followers_count <> COALESCE(s.n, '0'::bigint))
+        Rows Removed by Join Filter: 28800
+        Buffers: shared hit=2930
+        ->  Seq Scan on users u  (cost=0.00..816.73 rows=31173 width=14) (actual time=0.002..1.844 rows=30000 loops=1)
+              Buffers: shared hit=505
+        ->  Hash  (cost=8891.45..8891.45 rows=31173 width=48) (actual time=47.389..47.391 rows=30000 loops=1)
+              Buckets: 32768  Batches: 1  Memory Usage: 2717kB
+              Buffers: shared hit=2425
+              ->  Subquery Scan on s  (cost=8267.99..8891.45 rows=31173 width=48) (actual time=43.238..45.892 rows=30000 loops=1)
+                    Buffers: shared hit=2425
+                    ->  HashAggregate  (cost=8267.99..8579.72 rows=31173 width=12) (actual time=43.217..44.333 rows=30000 loops=1)
+                          Group Key: uu.user_id
+                          Batches: 1  Memory Usage: 3601kB
+                          Buffers: shared hit=2425
+                          ->  Hash Right Join  (cost=1206.39..7016.08 rows=250382 width=8) (actual time=2.618..29.384 rows=251292 loops=1)
+                                Hash Cond: (f.followee_id = uu.user_id)
+                                Buffers: shared hit=2425
+                                ->  Seq Scan on follows f  (cost=0.00..5152.35 rows=250382 width=8) (actual time=0.003..9.416 rows=250729 loops=1)
+                                      Filter: ((status)::text = 'ACCEPTED'::text)
+                                      Rows Removed by Filter: 7859
+                                      Buffers: shared hit=1920
+                                ->  Hash  (cost=816.73..816.73 rows=31173 width=4) (actual time=2.599..2.600 rows=30000 loops=1)
+                                      Buckets: 32768  Batches: 1  Memory Usage: 1311kB
+                                      Buffers: shared hit=505
+                                      ->  Seq Scan on users uu  (cost=0.00..816.73 rows=31173 width=4) (actual time=0.001..1.572 rows=30000 loops=1)
+                                            Buffers: shared hit=505
+Planning:
+  Buffers: shared hit=327
+Planning Time: 0.545 ms
+Execution Time: 77.965 ms
+=== W04 run 3 ===
+Update on users u  (cost=9368.99..10383.76 rows=0 width=0) (actual time=110.066..110.072 rows=0 loops=1)
+  Buffers: shared hit=40574 dirtied=109 written=109
+  ->  Hash Join  (cost=9368.99..10383.76 rows=32250 width=46) (actual time=48.738..56.653 rows=1200 loops=1)
+        Hash Cond: (u.user_id = s.user_id)
+        Join Filter: (u.followers_count <> COALESCE(s.n, '0'::bigint))
+        Rows Removed by Join Filter: 28800
+        Buffers: shared hit=2970
+        ->  Seq Scan on users u  (cost=0.00..849.07 rows=32407 width=14) (actual time=0.002..2.018 rows=30000 loops=1)
+              Buffers: shared hit=525
+        ->  Hash  (cost=8963.90..8963.90 rows=32407 width=48) (actual time=48.717..48.720 rows=30000 loops=1)
+              Buckets: 32768  Batches: 1  Memory Usage: 2717kB
+              Buffers: shared hit=2445
+              ->  Subquery Scan on s  (cost=8315.76..8963.90 rows=32407 width=48) (actual time=44.619..47.319 rows=30000 loops=1)
+                    Buffers: shared hit=2445
+                    ->  HashAggregate  (cost=8315.76..8639.83 rows=32407 width=12) (actual time=44.604..45.715 rows=30000 loops=1)
+                          Group Key: uu.user_id
+                          Batches: 1  Memory Usage: 3601kB
+                          Buffers: shared hit=2445
+                          ->  Hash Right Join  (cost=1254.16..7063.85 rows=250382 width=8) (actual time=2.792..30.379 rows=251292 loops=1)
+                                Hash Cond: (f.followee_id = uu.user_id)
+                                Buffers: shared hit=2445
+                                ->  Seq Scan on follows f  (cost=0.00..5152.35 rows=250382 width=8) (actual time=0.003..9.493 rows=250729 loops=1)
+                                      Filter: ((status)::text = 'ACCEPTED'::text)
+                                      Rows Removed by Filter: 7859
+                                      Buffers: shared hit=1920
+                                ->  Hash  (cost=849.07..849.07 rows=32407 width=4) (actual time=2.768..2.768 rows=30000 loops=1)
+                                      Buckets: 32768  Batches: 1  Memory Usage: 1311kB
+                                      Buffers: shared hit=525
+                                      ->  Seq Scan on users uu  (cost=0.00..849.07 rows=32407 width=4) (actual time=0.001..1.695 rows=30000 loops=1)
+                                            Buffers: shared hit=525
+Planning:
+  Buffers: shared hit=327
+Planning Time: 0.547 ms
+Execution Time: 110.319 ms

@@ -1,0 +1,84 @@
+=== R15 run 1 ===
+Sort  (cost=31919.94..31928.73 rows=3515 width=94) (actual time=20.409..20.414 rows=136 loops=1)
+  Sort Key: u.user_id
+  Sort Method: quicksort  Memory: 33kB
+  Buffers: shared hit=9853 read=653
+  CTE candidate_users
+    ->  Seq Scan on users  (cost=0.00..861.00 rows=3533 width=24) (actual time=0.008..2.178 rows=3271 loops=1)
+          Filter: (is_verified OR ((account_type)::text = 'CREATOR'::text))
+          Rows Removed by Filter: 26729
+          Buffers: shared hit=486
+  ->  Nested Loop  (cost=8.68..30851.92 rows=3515 width=94) (actual time=2.454..20.378 rows=136 loops=1)
+        Buffers: shared hit=9850 read=653
+        ->  CTE Scan on candidate_users u  (cost=0.00..70.66 rows=3533 width=86) (actual time=0.010..2.582 rows=3271 loops=1)
+              Buffers: shared hit=486
+        ->  Subquery Scan on actual_counts  (cost=8.68..8.70 rows=1 width=8) (actual time=0.005..0.005 rows=0 loops=3271)
+              Filter: (u.followers_count <> actual_counts.actual)
+              Rows Removed by Filter: 1
+              Buffers: shared hit=9364 read=653
+              ->  Aggregate  (cost=8.68..8.69 rows=1 width=8) (actual time=0.005..0.005 rows=1 loops=3271)
+                    Buffers: shared hit=9364 read=653
+                    ->  Index Only Scan using follows_accepted_by_followee_idx on follows follow_row  (cost=0.42..8.65 rows=13 width=0) (actual time=0.002..0.004 rows=23 loops=3271)
+                          Index Cond: (followee_id = u.user_id)
+                          Heap Fetches: 0
+                          Buffers: shared hit=9364 read=653
+Planning:
+  Buffers: shared hit=314
+Planning Time: 1.235 ms
+Execution Time: 20.474 ms
+=== R15 run 2 ===
+Sort  (cost=31919.94..31928.73 rows=3515 width=94) (actual time=17.525..17.533 rows=136 loops=1)
+  Sort Key: u.user_id
+  Sort Method: quicksort  Memory: 33kB
+  Buffers: shared hit=10506
+  CTE candidate_users
+    ->  Seq Scan on users  (cost=0.00..861.00 rows=3533 width=24) (actual time=0.009..3.193 rows=3271 loops=1)
+          Filter: (is_verified OR ((account_type)::text = 'CREATOR'::text))
+          Rows Removed by Filter: 26729
+          Buffers: shared hit=486
+  ->  Nested Loop  (cost=8.68..30851.92 rows=3515 width=94) (actual time=1.441..17.490 rows=136 loops=1)
+        Buffers: shared hit=10503
+        ->  CTE Scan on candidate_users u  (cost=0.00..70.66 rows=3533 width=86) (actual time=0.011..3.741 rows=3271 loops=1)
+              Buffers: shared hit=486
+        ->  Subquery Scan on actual_counts  (cost=8.68..8.70 rows=1 width=8) (actual time=0.004..0.004 rows=0 loops=3271)
+              Filter: (u.followers_count <> actual_counts.actual)
+              Rows Removed by Filter: 1
+              Buffers: shared hit=10017
+              ->  Aggregate  (cost=8.68..8.69 rows=1 width=8) (actual time=0.004..0.004 rows=1 loops=3271)
+                    Buffers: shared hit=10017
+                    ->  Index Only Scan using follows_accepted_by_followee_idx on follows follow_row  (cost=0.42..8.65 rows=13 width=0) (actual time=0.001..0.003 rows=23 loops=3271)
+                          Index Cond: (followee_id = u.user_id)
+                          Heap Fetches: 0
+                          Buffers: shared hit=10017
+Planning:
+  Buffers: shared hit=314
+Planning Time: 1.252 ms
+Execution Time: 17.604 ms
+=== R15 run 3 ===
+Sort  (cost=31919.94..31928.73 rows=3515 width=94) (actual time=21.575..21.584 rows=136 loops=1)
+  Sort Key: u.user_id
+  Sort Method: quicksort  Memory: 33kB
+  Buffers: shared hit=10506
+  CTE candidate_users
+    ->  Seq Scan on users  (cost=0.00..861.00 rows=3533 width=24) (actual time=0.004..4.985 rows=3271 loops=1)
+          Filter: (is_verified OR ((account_type)::text = 'CREATOR'::text))
+          Rows Removed by Filter: 26729
+          Buffers: shared hit=486
+  ->  Nested Loop  (cost=8.68..30851.92 rows=3515 width=94) (actual time=1.037..21.528 rows=136 loops=1)
+        Buffers: shared hit=10503
+        ->  CTE Scan on candidate_users u  (cost=0.00..70.66 rows=3533 width=86) (actual time=0.005..5.955 rows=3271 loops=1)
+              Buffers: shared hit=486
+        ->  Subquery Scan on actual_counts  (cost=8.68..8.70 rows=1 width=8) (actual time=0.005..0.005 rows=0 loops=3271)
+              Filter: (u.followers_count <> actual_counts.actual)
+              Rows Removed by Filter: 1
+              Buffers: shared hit=10017
+              ->  Aggregate  (cost=8.68..8.69 rows=1 width=8) (actual time=0.004..0.004 rows=1 loops=3271)
+                    Buffers: shared hit=10017
+                    ->  Index Only Scan using follows_accepted_by_followee_idx on follows follow_row  (cost=0.42..8.65 rows=13 width=0) (actual time=0.002..0.003 rows=23 loops=3271)
+                          Index Cond: (followee_id = u.user_id)
+                          Heap Fetches: 0
+                          Buffers: shared hit=10017
+Planning:
+  Buffers: shared hit=314
+Planning Time: 0.516 ms
+Execution Time: 21.630 ms

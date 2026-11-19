@@ -1,6 +1,9 @@
 -- Instagram Social Media Database
 -- CP1: Schema & Normalization
--- PostgreSQL 18.3
+-- PostgreSQL 15+
+
+CREATE SCHEMA IF NOT EXISTS instagram;
+SET search_path TO instagram, public;
 
 -- 1. USERS
 CREATE TABLE users (
