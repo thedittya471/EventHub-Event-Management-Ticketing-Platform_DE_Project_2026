@@ -124,11 +124,12 @@ LIMIT 10;
 
 -- @R13
 -- Creator tools: comments on post 59689 that nobody has replied to yet
--- Retain NOT IN because NULL parent_comment_id values affect its original semantics.
+-- Preserve NOT IN semantics while checking for NULL once, before probing replies.
 SELECT c.comment_id, c.user_id, c.body
 FROM comments c
 WHERE c.post_id = 59689
-  AND c.comment_id NOT IN (SELECT r.parent_comment_id FROM comments r);
+  AND NOT EXISTS (SELECT 1 FROM comments WHERE parent_comment_id IS NULL)
+  AND NOT EXISTS (SELECT 1 FROM comments r WHERE r.parent_comment_id = c.comment_id);
 
 -- @R14
 -- "Not following back": accounts that follow user 217 whom 217 doesn't follow
@@ -249,8 +250,10 @@ LIMIT 20;
 
 -- @W01
 -- Publish a new photo post
-INSERT INTO posts (post_id, user_id, post_type, caption, location_name, created_at)
-VALUES (90000001, 1042, 'PHOTO', 'Monsoon diaries #monsoon', 'Mumbai', '2026-07-01 08:00:00+05:30');
+INSERT INTO posts (post_id, user_id, post_type, caption, location_name,
+                   like_count, comment_count, is_archived, created_at)
+VALUES (90000001, 1042, 'PHOTO', 'Monsoon diaries #monsoon', 'Mumbai',
+        0, 0, false, '2026-07-01 08:00:00+05:30');
 
 -- @W02
 -- Double-tap: user 1042 likes post 59689

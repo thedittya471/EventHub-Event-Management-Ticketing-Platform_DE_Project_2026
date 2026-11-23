@@ -1,3 +1,5 @@
 seed_data/
 large_data/
+/large_data.zip
+/benchmarks/results/large/*.txt
 .DS_Store
